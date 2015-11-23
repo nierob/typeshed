@@ -40,9 +40,10 @@ def async(coro_or_future, *, loop: AbstractEventLoop=None) -> Future: pass
 
 def gather(*coros_or_futures, loop: AbstractEventLoop=None, return_exceptions: bool=False) -> Future: pass
 def shield(arg, *, loop: AbstractEventLoop=None): pass
+def iscoroutine(o) -> bool: pass
 
 __all__ = (futures.__all__ +
             tasks.__all__ +
             events.__all__ +
             queues.__all__
-            + ['TimeoutError', 'CancelledError', 'gather', 'async', 'shield'])
+            + ['TimeoutError', 'CancelledError', 'gather', 'async', 'shield', 'iscoroutine'])
