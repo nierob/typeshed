@@ -1,6 +1,7 @@
 from typing import Any, TypeVar, List, Callable, Tuple, Union, Dict
 from abc import ABCMeta, abstractmethod
 from asyncio.futures import Future
+from asyncio.tasks import Task
 
 # __all__ = ['AbstractServer',
 #            'TimerHandle',
@@ -10,7 +11,7 @@ from asyncio.futures import Future
 #            ]
 
 
-__all__ = ['AbstractEventLoopPolicy', 'AbstractEventLoop', 'Handle', 'get_event_loop']
+__all__ = ['AbstractEventLoopPolicy', 'AbstractEventLoop', 'Handle', 'get_event_loop', 'Event']
 
 _T = TypeVar('_T')
 
@@ -148,6 +149,18 @@ class AbstractEventLoop(metaclass=ABCMeta):
     def get_debug(self) -> bool: ...
     @abstractmethod
     def set_debug(self, enabled: bool) -> None: ...
+    
+    # New in version 3.4.2
+    def create_task(self, coro: Any) -> Task: ...
+
+    
+class Event(object):
+    def __init__(self, *args, loop: AbstractEventLoop=None) -> None: ...
+    def clear(self) -> None: ...
+    def is_set(self) -> bool: ...
+    def set(self) -> None: ...
+    def wait(self) -> Future: ...
+
 
 class AbstractEventLoopPolicy(metaclass=ABCMeta):
     @abstractmethod
